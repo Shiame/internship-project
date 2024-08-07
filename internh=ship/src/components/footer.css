@@ -1,0 +1,95 @@
+.footer-container {
+    background: url(/public/imgs/image.jpg) ;
+    padding: 25px 15px;
+    color: #fff;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+    
+
+}
+
+.footer-section-logo{
+    display: flex;
+    align-items: center;
+}
+.footer-section-logo div{
+    display: flex;
+    flex-direction: column;
+    
+}
+.footer-section img{
+    width: 150px;
+    height: 100px;
+    
+}
+
+.footer-section h2{
+    font-size: 40px;
+    margin-bottom: 10px;
+    margin-left: 15px;
+    
+
+}
+.footer-section-heading{
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+      'Lucida Sans', Arial, sans-serif;
+    font-size: 16px;
+    margin-left: 15px;
+    margin-top: 115px;
+    
+   
+}
+
+.footer-section-adresse
+ {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-top: 50px;
+    padding-left: 30px;
+    
+}
+.footer-section-tel{
+    display: flex;
+    align-items: center;
+    padding-left: 30px;
+}
+.footer-section-adresse p,
+.footer-section-tel p{
+    font-size: 16px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+      'Lucida Sans', Arial, sans-serif;
+}
+.footer-section-adresse i,
+.footer-section-tel i{
+    margin-right: 20px;
+    font-size: 15px;
+}
+
+.social-media{
+    width: 100%;
+    max-width: 1000px;
+}
+.social-media-wrap{
+    display: flex;
+    justify-content: center;
+}
+.footer-icons{
+    justify-content: space-between;
+    padding-top: 30px;
+    padding-bottom: 20px;
+    padding-left: 500px;
+}
+
+.footer-icons i{
+    margin-right: 40px;
+    font-size: 40px;
+    color: #fff;
+}
+
+.footer-icons i:hover{
+    color: #378937;
+    font-size: 60px;
+    transition: all 0.3s ease-out;
+}

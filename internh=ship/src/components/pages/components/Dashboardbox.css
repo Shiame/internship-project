@@ -1,0 +1,42 @@
+:root{
+    --green: #84f184;
+}
+
+.boxinfo{
+    display: flex;
+    width: 50%;
+    height: 30%;
+    margin-top: 50px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+    background: #ededed;
+    color: var(--grona);
+    margin-left: 400px;
+    border-left: #265326 solid 5px;
+    border-right: #265326 solid 5px;
+    
+}
+
+.boxinfo .fa-regular{
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+    background: var(--green) ;
+    color: #265326;
+    font-size: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 0;
+}
+
+.boxinfo h2{
+    margin-left: 0px;
+    margin-bottom: 15px;
+    font-size: 40px;
+}
+.boxinfo p{
+    font-size: 30px;
+
+}
