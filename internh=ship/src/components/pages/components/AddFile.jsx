@@ -20,20 +20,30 @@ export default function AddFileForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+    setError("");
+
+    if (!file) {
+      setError("Please select a file.");
+      setIsLoading(false);
+      return;
+    }
 
     const formData = new FormData();
-    formData.append('name', name);
-    formData.append('description', description);
-    formData.append('file', file);
+    formData.append("name", name);
+    formData.append("description", description);
+    formData.append("file", file);
 
     try {
-      const response = await api.post('/files/', formData, {
+      const response = await api.post("/files/", formData, {
         headers: {
-          'Content-Type': 'multipart/form-data'
-        }
+          "Content-Type": "multipart/form-data",
+        },
       });
-      navigate('/UploadPage');
-    } catch (error) {
+      console.log(response.data); // Log the response data
+      alert("Fichier ajouté avec succès!");
+      navigate("/UploadPage");
+    } catch (err) {
+      console.error("Upload error:", err);
       setError("An error occurred while uploading the file.");
     } finally {
       setIsLoading(false);
@@ -49,7 +59,7 @@ export default function AddFileForm() {
           {error && <div className="alert alert-danger">{error}</div>}
           <form onSubmit={handleSubmit}>
             <div className="row mb-3">
-              <label className="col-sm-4 col-form-label">Nom de Fichier</label>
+              <label className="col-sm-4 col-form-label">Nom De Fichier</label>
               <div className="col-sm-8">
                 <input
                   type="text"
@@ -85,19 +95,26 @@ export default function AddFileForm() {
                 />
               </div>
             </div>
-            <div className="row bttn">
-              <div className="offset-sm-2 col-sm-4 button-group">
+            <div className="row">
+              <div className="offset-sm-2 col-sm-4">
                 <button
                   type="submit"
-                  className="btn1 btn btn-primary"
+                  className="btn btn-primary"
                   disabled={isLoading}
+                  style={{backgroundColor: "#317131"}}
                 >
-                  {isLoading ? 'Uploading...' : 'Valider'}
+                  {isLoading ? 'Uploading...' : 'Submit'}
                 </button>
               </div>
-              <div className="col-sm-2 button-group">
+              <div className="col-sm-2">
                 <Link to="/UploadPage">
-                  <button className="btn btn2 btn-primary" disabled={isLoading}>Annuler</button>
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    disabled={isLoading}
+                  >
+                    Cancel
+                  </button>
                 </Link>
               </div>
             </div>

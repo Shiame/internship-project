@@ -4,40 +4,39 @@ import useAxios from "../../../utils/useAxios";
 import NavBarFMS from "./NavBarFMS";
 import "./AddFile.css";
 
-export default function UpdateFile() {
+export default function UpdateFileForm() {
+  const { id } = useParams();
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [file, setFile] = useState(null);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const api = useAxios();
-  const { id } = useParams();
 
-  useEffect(() => {
-    const fetchFileData = async () => {
-      try {
-        const response = await api.get(`/files/${id}/`);
-        const { name, description } = response.data;
-        // Populate the form fields with the current file data
-        document.getElementById("name").value = name;
-        document.getElementById("description").value = description;
-      } catch (err) {
-        setError("Failed to load file data. Please try again.");
-      }
-    };
+  
 
-    fetchFileData();
-  }, [id, api]);
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+
+  const handleNameChange = (e) => {
+    setName(e.target.value);
+  };
+
+  const handleDescriptionChange = (e) => {
+    setDescription(e.target.value);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
     setIsLoading(true);
+    setError("");
 
-    const formData = new FormData(e.target);
-
-    // Log the FormData content for debugging
-    for (let [key, value] of formData.entries()) {
-      console.log(`${key}: ${value}`);
-    }
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("description", description);
+    if (file) formData.append("file", file);
 
     try {
       const response = await api.patch(`/files/${id}/`, formData, {
@@ -45,13 +44,12 @@ export default function UpdateFile() {
           'Content-Type': 'multipart/form-data',
         },
       });
-      if (response.status === 200) {
-        navigate("/UploadPage");
-      } else {
-        setError("Failed to update file. Please try again.");
-      }
+      console.log(response.data);
+      alert("fichier mise à jour avec succès!!");
+      navigate("/UploadPage");
     } catch (err) {
-      setError("Failed to update file. Please try again.");
+      console.error("Update error:", err);
+      setError("An error occurred while updating the file.");
     } finally {
       setIsLoading(false);
     }
@@ -62,55 +60,62 @@ export default function UpdateFile() {
       <NavBarFMS />
       <div className="container my-4">
         <div className="col-md-8 mx-auto rounded border p-4">
-          <h2 className="text-center mb-5">Mettre à jour votre fichier</h2>
+          <h2 className="text-center mb-5">Mise à jour votre fichier</h2>
           {error && <div className="alert alert-danger">{error}</div>}
           <form onSubmit={handleSubmit}>
-            <div className="row mb-3">
-              <label className="col-sm-4 col-form-label">Nom de Fichier</label>
+            <div className="form-group row mb-3">
+              <label htmlFor="name" className="col-sm-4 col-form-label">Nom de fichier</label>
               <div className="col-sm-8">
                 <input
+                  id="name"
                   type="text"
                   className="form-control"
-                  name="name"
-                  id="name"
+                  value={name}
+                  onChange={handleNameChange}
                   required
                 />
               </div>
             </div>
-            <div className="row mb-3">
-              <label className="col-sm-4 col-form-label">Description</label>
+            <div className="form-group row mb-3">
+              <label htmlFor="description" className="col-sm-4 col-form-label">Description</label>
               <div className="col-sm-8">
                 <textarea
-                  className="form-control"
-                  name="description"
                   id="description"
+                  className="form-control"
                   rows="3"
+                  value={description}
+                  onChange={handleDescriptionChange}
                 />
               </div>
             </div>
-            <div className="row mb-3">
+            <div className="form-group row mb-3">
               <label className="col-sm-4 col-form-label">Choisir un fichier</label>
               <div className="col-sm-8">
                 <input
                   type="file"
                   className="form-control"
-                  name="file"
+                  onChange={handleFileChange}
                 />
               </div>
             </div>
-            <div className="row bttn">
-              <div className="offset-sm-2 col-sm-4 button-group">
+            <div className="form-group row mb-3">
+              <div className="offset-sm-4 col-sm-8 d-flex justify-content-between">
                 <button 
                   type="submit" 
-                  className="btn1 btn btn-primary"
+                  className="btn btn-primary"
                   disabled={isLoading}
+                  style={{backgroundColor:"#317131"}}
                 >
-                  {isLoading ? 'Updating...' : 'Enregistrer'}
+                  {isLoading ? 'Updating...' : 'Update'}
                 </button>
-              </div>
-              <div className="col-sm-2 button-group">
                 <Link to="/UploadPage">
-                  <button className="btn btn2 btn-primary" disabled={isLoading}>Annuler</button>
+                  <button 
+                    type="button" 
+                    className="btn btn-secondary" 
+                    disabled={isLoading}
+                  >
+                    Annuler
+                  </button>
                 </Link>
               </div>
             </div>
