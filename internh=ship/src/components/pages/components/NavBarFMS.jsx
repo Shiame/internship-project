@@ -39,7 +39,7 @@ const NavBarFMS = () => {
         <Link to='/UploadPage'>Téléchargements</Link>
         
         <section className="end">
-        <Link to="/" className="nav-profile">
+        <Link to="/profile" className="nav-profile">
            <span>Bienvenue, </span>
            <span style={{color:"#317131"}}>{username}</span>
         </Link>

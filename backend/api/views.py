@@ -9,11 +9,11 @@ from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
 import mimetypes
 import os
-
+from api.serializer import UserSerializer
 from django.http import FileResponse
 from api.serializer import MyTokenObtainPairSerializer, RegisterSerializer
 from api.models import File
-from api.serializer import FileSerializer
+from api.serializer import FileSerializer, ProfileSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenObtainPairView
@@ -44,7 +44,24 @@ def getRoutes(request):
     ]
     return Response(routes)
 
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
 
+    @action(detail=False, methods=['get', 'patch'])
+    def me(self, request):
+        user = request.user
+        if request.method == 'GET':
+            serializer = self.get_serializer(user)
+            return Response(serializer.data)
+        elif request.method == 'PATCH':
+            serializer = self.get_serializer(user, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+        
 class FileViewSet(viewsets.ModelViewSet):
     serializer_class = FileSerializer
     permission_classes = [IsAuthenticated]

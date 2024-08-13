@@ -1,7 +1,7 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from . import views
-from api.views import FileViewSet, shared_file_view
+from api.views import FileViewSet, shared_file_view, UserViewSet
 
 from rest_framework_simplejwt.views import (
     TokenRefreshView,
@@ -9,6 +9,8 @@ from rest_framework_simplejwt.views import (
 
 router = DefaultRouter()
 router.register(r'files', FileViewSet, basename='file')
+router.register(r'users', UserViewSet)
+
 
 urlpatterns = [
     path('token/', views.MyTokenObtainPairView.as_view(), name='token_obtain_pair'),

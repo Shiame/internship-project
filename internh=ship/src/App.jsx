@@ -12,6 +12,7 @@ import PrivateRoute from './utils/PrivateRoute';
 import { AuthProvider } from './context/AuthContext.jsx';
 import UpdateFile from './components/pages/components/updateFile.jsx';
 import Register from './components/pages/Register.jsx';
+import ProfileManagement from './components/pages/profile.jsx';
 
 function App() {
   return (
@@ -26,7 +27,7 @@ function App() {
 function Main() {
   const location = useLocation();
   // Updated the route to match the path pattern
-  const hideNavBarRoutes = ["/UpdateFile", "/SignIn", "/FMSHome", "/UploadPage", "/AddFileForm", "/Register"];
+  const hideNavBarRoutes = ["/UpdateFile", "/SignIn", "/FMSHome", "/UploadPage", "/AddFileForm", "/Register","/profile"];
   
   const showNavBar = !hideNavBarRoutes.some(route => location.pathname.startsWith(route));
 
@@ -45,6 +46,8 @@ function Main() {
           <Route path="/UploadPage" exact element={<UploadPage />} />
           <Route path="/AddFileForm" exact element={<AddFileForm />} />
           <Route path="/UpdateFile/:id" element={<UpdateFile />} />
+          <Route path="/profile" element={<ProfileManagement />} />
+
         </Route>
       </Routes>
     </>
